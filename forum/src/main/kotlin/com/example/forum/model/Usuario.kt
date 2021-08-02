@@ -1,7 +1,7 @@
 package com.example.forum.model
 
-data class Curso (
+data class Usuario (
     val id: Long? = null,
     val nome: String,
-    val categorias: String
-)
+    val email: String
+    )
