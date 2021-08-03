@@ -10,7 +10,9 @@ class CursoService(var cursos: List<Curso> ) {
     init {
         val curso = Curso(
             id = 1,
-            nome = "kotlin"
+            nome = "kotlin",
+            categorias = "Programação"
+
         )
         cursos = Arrays.asList(curso)
     }
