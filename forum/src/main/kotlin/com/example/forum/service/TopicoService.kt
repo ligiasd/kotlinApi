@@ -2,6 +2,8 @@ package com.example.forum.service
 
 import com.example.forum.dto.NovoTopicoForm
 import com.example.forum.dto.TopicoView
+import com.example.forum.mapper.TopicoFormMapper
+import com.example.forum.mapper.TopicoViewMapper
 import com.example.forum.model.Topico
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
@@ -10,46 +12,28 @@ import kotlin.collections.ArrayList
 @Service
 class TopicoService(
     private var topicos: List<Topico> = ArrayList(),
-    private val cursoService: CursoService,
-    private val usuarioService: UsuarioService
-
-
+    private val topicoViewMapper: TopicoViewMapper,
+    private val topicoFormMapper: TopicoFormMapper
 )
 {
 
     fun listar(): List<TopicoView> {
-        return topicos.stream().map { t -> TopicoView(
-            id = t.id,
-            titulo = t.titulo,
-            mensagem = t.mensagem,
-            dataCriacao = t.dataDescricao,
-            status = t.status
-
-        ) }.collect(Collectors.toList())
+        return topicos.stream().map { t ->
+            topicoViewMapper.map(t)
+        }.collect(Collectors.toList())
     }
 
     fun buscarPorId(id: Long): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == id
         }.findFirst().get()
-        return TopicoView(
-            id = topico.id,
-            titulo = topico.titulo,
-            mensagem = topico.mensagem,
-            dataCriacao = topico.dataDescricao,
-            status = topico.status
-
-        )
+        return topicoViewMapper.map(topico)
     }
 
-    fun cadastrar(dto: NovoTopicoForm) {
-        topicos.plus(Topico(
-            id = topicos.size.toLong() + 1,
-            titulo =  dto.titulo,
-            mensagem = dto.mensagem,
-            curso = cursoService.buscarPorId(dto.idCurso),
-            autor = usuarioService.buscarPorId(dto.idAutor)
-        ))
+    fun cadastrar(form: NovoTopicoForm) {
+        val topico = topicoFormMapper.map(form)
+        topico.id = topicos.size.toLong() +1
+        topicos.plus(topico)
 
     }
 
