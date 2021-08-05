@@ -1,6 +1,6 @@
 package com.example.forum.dto
 
-class NovoTopicoDto (
+class NovoTopicoForm (
     val titulo: String,
     val mensagem: String,
     val idCurso: Long,
