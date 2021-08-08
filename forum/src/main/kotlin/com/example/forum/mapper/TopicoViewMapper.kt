@@ -12,7 +12,7 @@ class TopicoViewMapper: Mapper <Topico, TopicoView> {
             id = t.id,
             titulo = t.titulo,
             mensagem = t.mensagem,
-            dataCriacao = t.dataDescricao,
+            dataCriacao = t.dataCriacao,
             status = t.status
 
         )
